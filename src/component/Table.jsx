@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 function Table() {
   const [employees, setEmployees] = useState([]);
+  const [search, setSearch] = useState([]);
+
   useEffect(() => {
     apiCall();
   }, []);
@@ -27,28 +29,29 @@ let newOrder = [...employees]
     return 0;
     
     }); 
-    // console.log(newOrder)
-    // newOrder.forEach(item => {
-    //   console.log(item.name)
-      
-    // })
+    
     
     setEmployees(newOrder)
     console.log(employees)
     
   };
-  let filterNum = (event) =>{
-     console.log("inside filter function")
-  //  let newList = employees.indexOf(employees.phone)
-  //  console.log(newList);
-    // setEmployees(newList)
-  };
+  function updateSearch( event ){
+    event.preventDefault()
+    setSearch( event.target.value )
+}
+
+  function filterNum( event ){
+    event.preventDefault()
+    const list = employees.filter( e=>e.phone.indexOf(search)>-1 )
+    setEmployees( list )
+}
+
 
   return (
     <>
     <h1>Employee List</h1>
     <hr/>
-    <input></input><button onClick={filterNum}>Filter by phone Number</button>
+    <input value={search} onChange={updateSearch}/><button onClick={filterNum}>Filter by phone Number</button>
      <table className="table">
       <thead>
         <tr>
